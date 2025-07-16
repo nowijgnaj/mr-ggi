@@ -1,0 +1,27 @@
+Package: MRggi
+Type: Package
+Title: What the Package Does (Title Case)
+Version: 0.1.0
+Author: person("Kyungim", "Kim", email="quffhrhrh@gmail.com", role=c("cph", "cre"))
+    person("Wonseok", "Oh", email="hiows@naver.com", role=c("aut", "cre"))
+Maintainer: The package maintainer <yourself@somewhere.net>
+Description: More about what it does (maybe more than one line)
+    Use four spaces when indenting paragraphs within the Description.
+License: MIT + file LICENSE
+Encoding: UTF-8
+LazyData: true
+Depends: 
+    R (>= 2.10)
+RoxygenNote: 7.2.3
+Imports: 
+    colorspace,
+    data.table,
+    dplyr,
+    igraph,
+    influential,
+    stats,
+    susieR,
+    visNetwork
+Suggests: 
+    testthat (>= 3.0.0)
+Config/testthat/edition: 3

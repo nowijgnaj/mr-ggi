@@ -1,0 +1,132 @@
+library(shiny)
+library(shinydashboard)
+library(ggplot2)
+library(ggExtra)
+library(bslib)
+library(dplyr)
+library(readr)
+library(wesanderson)
+
+Af <- readr::read_csv("C:/Users/kki/Documents/R/www/PRSweb/consent_1_835_af.csv")
+# Find subset of columns that are suitable for scatter plot
+Af_num <- Af |> select(where(is.numeric), -c("FID","IID","sex","age"))
+Af_num$afc <- "control"
+Af_num$afc[Af_num$AF == 1] <- "case"
+Af_num[Af_num == -9] <-NA
+Af_num <- na.omit(Af_num)
+
+str <- readr::read_csv("C:/Users/kki/Documents/R/www/PRSweb/consent_1_835_str.csv")
+str$strc <- "control"
+str$strc[str$STR == 1] <- "case"
+str[str == -9] <-NA
+str <- na.omit(str)
+
+demen <- readr::read_csv("C:/Users/kki/Documents/R/www/PRSweb/consent_1_835_demen.csv")
+demen$demenc <- "control"
+demen$demenc[demen$Demen == 1] <- "case"
+demen[demen == -9] <-NA
+demen <- na.omit(demen)
+
+dia <- readr::read_csv("C:/Users/kki/Documents/R/www/PRSweb/consent_1_835_dia.csv")
+dia$diac <- "control"
+dia$diac[dia$DIA == 1] <- "case"
+dia[dia == -9] <-NA
+dia <- na.omit(dia)
+
+chd <- readr::read_csv("C:/Users/kki/Documents/R/www/PRSweb/consent_1_835_chd.csv")
+chd$CHDc <- "control"
+chd$CHDc[chd$CHDc == 1] <- "case"
+chd[chd == -9] <-NA
+chd <- na.omit(chd)
+
+chf <- readr::read_csv("C:/Users/kki/Documents/R/www/PRSweb/consent_1_835_chf.csv")
+chf$CHFc <- "control"
+chf$CHFc[chf$CHF == 1] <- "case"
+chf[chf == -9] <-NA
+chf <- na.omit(chf)
+
+
+ui <- fluidPage(
+  titlePanel("Cardiovascular Disease"),
+  fluidRow(
+    column(3,
+           numericInput("numeric_input", "Age", value="0",min=0, max = 100),
+           numericInput("numeric_input", "cholesterol", value="0",min=0, max = 500),
+           fileInput("file_input", "genotype_file"),
+           ),
+    column(3,
+           radioButtons("radio_input", "Smoking status", choices = c("Yes", "No"), selected="Yes"),
+           numericInput("numeric_input", "Blood Glucose", value="0",min=20, max = 500),
+           ),
+    column(3,
+           radioButtons("radio_input", "Drinking alcohol", choices = c("Yes", "No"), selected="Yes"),
+           numericInput("numeric_input", "Blood pressure", value="0",min=0, max = 500),
+           submitButton("Submit Button"),
+           )
+    ),
+    fluidRow(
+       column(3,
+             plotOutput("AFPlot")
+    ), column(3,
+              plotOutput("STRPlot")
+    ), column(3,
+              plotOutput("DemenPlot"))
+    ),
+    fluidRow(
+       column(3,
+              plotOutput("DIAPlot")
+    ), column(3,
+              plotOutput("CHDPlot")
+    ), column(3,
+              plotOutput("CHFPlot"))
+  )
+
+
+)
+
+
+server <- function(input, output, session) {
+
+  output$input_values <- renderPrint({
+    paste("Numeric Input:", input$numeric_input)
+    paste("Radio Input:", input$radio_input)
+    paste("Submit Button Clicks:", input$submit_button)
+    paste("File Input:", input$file_input)
+  })
+
+
+  output$AFPlot <- renderPlot({
+    p1 <- ggplot(Af_num, aes(x = PRSice2, colour = afc)) + geom_density() + theme_minimal() + labs(title = "Atrial Fibrillation")
+    print(p1)
+  })
+
+
+  output$STRPlot <- renderPlot({
+    p2 <- ggplot(str, aes(x = PRSice2, colour = strc)) + geom_density() + theme_minimal() + labs(title = "Stroke")
+    print(p2)
+  })
+
+  output$DemenPlot <- renderPlot({
+    p3 <- ggplot(demen, aes(x = PRSice2, colour = demenc)) + geom_density() + theme_minimal() + labs(title = "Dementia")
+    print(p3)
+  })
+
+  output$DIAPlot <- renderPlot({
+    p4 <- ggplot(dia, aes(x = PRSice2, colour = diac)) + geom_density() + theme_minimal() + labs(title = "Diabetes")
+    print(p4)
+  })
+
+  output$CHDPlot <- renderPlot({
+    p5 <- ggplot(chd, aes(x = PRSice2, colour = CHDc)) + geom_density() + theme_minimal() + labs(title = "CHD")
+    print(p5)
+  })
+
+  output$CHFPlot <- renderPlot({
+    p6 <- ggplot(chf, aes(x = PRSice2, colour = CHFc)) + geom_density() + theme_minimal() + labs(title = "CHF")
+    print(p6)
+  })
+
+}
+
+# 앱 실행
+shinyApp(ui = ui, server = server)

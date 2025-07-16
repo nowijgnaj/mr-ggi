@@ -1,0 +1,12 @@
+library(ggplot2)
+
+
+Af <- readr::read_csv("C:/Users/kki/Documents/R/www/PRSweb/consent_1_835_af.csv")
+# Find subset of columns that are suitable for scatter plot
+Af_num <- Af |> select(where(is.numeric), -c("FID","IID","sex","age"))
+Af_num$afc <- "control"
+Af_num$afc[Af_num$AF == 1] <- "case"
+Af_num[Af_num == -9] <-NA
+Af_num <- na.omit(Af_num)
+
+plot(Af_num)
