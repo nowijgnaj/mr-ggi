@@ -11,7 +11,7 @@
 #' cor_filter(x = x, y = y, cor.thr = 0 )
 #'
 #' @export
-cor_filter <- function(x, y, cor.thr = 0) {
+cor_filter <- function(x, y, cor.thr = 0) { # x = genotype/cis-SNP | y = gene expression/gene
   x.temp <- lapply(x, scale)
   y.temp <- scale(y)
 

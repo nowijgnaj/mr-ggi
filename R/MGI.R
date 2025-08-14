@@ -23,7 +23,7 @@
 #'
 #' @export
 MGI<- function(x, y, calc.idx, p.adjust.method = "bonferroni", fdrth = 0.05, c.size = 10, GRN = F) {
-
+  # x = genotype/cis-SNP | y = gene expression/gene
   g1 <- c() ; g2 <- c() ; GGcor <- c()
   max_Bs1g1_vec <- c() ; min_Bs1g1_vec <- c()
   max_Bs2g2_vec <- c() ; min_Bs2g2_vec <- c()

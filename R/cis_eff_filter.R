@@ -14,7 +14,7 @@
 #' cis_eff_filter(x = x, y = y, calc.idx=result, Bsg.thr = 0)
 #'
 #' @export
-cis_eff_filter <- function(x, y, calc.idx, Bsg.thr = 0) {
+cis_eff_filter <- function(x, y, calc.idx, Bsg.thr = 0) { # x = genotype/cis-SNP | y = gene expression/gene
   y.temp <- scale(y)
   x.temp <- lapply(x, scale)
 
@@ -30,4 +30,3 @@ cis_eff_filter <- function(x, y, calc.idx, Bsg.thr = 0) {
 
   return(calc.idx = calc.idx)
 }
-

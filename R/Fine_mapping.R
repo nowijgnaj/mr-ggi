@@ -17,8 +17,7 @@
 #' x_paris = FineMapping(x, y)
 #' head(x_paris)
 #'
-
-FineMapping <- function(x, y, pip.thr = 0){
+FineMapping <- function(x, y, pip.thr = 0){ # x = genotype/SNP | y = gene expression/gene
   x.FineMap <- lapply(1:ncol(y), function(i){
 
     res.chr <- susie(x, y[,i])
@@ -56,5 +55,3 @@ FineMapping <- function(x, y, pip.thr = 0){
   x.FineMap
   return(x.FineMap)
 }
-
-
